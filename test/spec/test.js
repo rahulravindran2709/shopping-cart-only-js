@@ -5,9 +5,17 @@
   var expect = window.expect
   var ShoppingCart = window.ShoppingCart
   var Product = window.Product
+  var localStorage = window.localStorage
+  var after = window.after
+  var beforeEach = window.beforeEach
+  var before = window.before
   describe('Shopping Cart Module', function () {
-    describe('CRUD sanity checks for shopping cart', function () {
-      var cart = new ShoppingCart()
+    var cart
+    beforeEach(function () {
+      localStorage.removeItem('cartData')
+      cart = new ShoppingCart()
+    })
+    describe('Sanity checks for shopping cart instance', function () {
       it('Cart items is not null', function () {
         expect(cart.cartItems).to.not.be.a('null')
         expect(cart.cartItems).to.not.be.a('undefined')
@@ -15,10 +23,15 @@
       it('Cart items length is 0', function () {
         expect(cart.cartItems.length).to.equal(0)
       })
-      it('Should add a cart element', function () {
-        expect(cart.cartItems.length).to.equal(0)
+    })
+    describe('CRUD operations on shopping cart', function () {
+      beforeEach(function () {
         cart.addItem(new Product('1', 'test_product', 'S', 2, 10))
+      })
+      it('Should add a cart element', function () {
         expect(cart.cartItems.length).to.equal(1)
+        cart.addItem(new Product('2', 'test_product', 'S', 2, 10))
+        expect(cart.cartItems.length).to.equal(2)
       })
       it('Should be able to fetch the cart item', function () {
         var currentItem = cart.getItemById('1')
@@ -44,19 +57,40 @@
         expect(cart.cartItems.length).to.equal(0)
       })
     })
+    describe('Publish scubscribe mechanism', function () {
+      var count
+      beforeEach(function () {
+        count = 0
+        cart.subscribe(function () {
+          count++
+        })
+      })
+      it('Should update subscribers queue with a given function', function () {
+        expect(cart.subscribers.length).to.equal(1)
+      })
+      it('Should execute the subscriber function when publish is invoked', function () {
+        cart.publish()
+        expect(count).to.equal(1)
+      })
+    })
+    /** Tests for price and discounts */
     describe('SubTotal price calculation', function () {
-      var cart = new ShoppingCart()
-      cart.addItem(new Product('1', 'test_product', 'S', 2, 10))
-      cart.addItem(new Product('2', 'test_product_2', 'S', 3, 20))
+      beforeEach(function () {
+        cart.addItem(new Product('1', 'test_product', 'S', 2, 10))
+        cart.addItem(new Product('2', 'test_product_2', 'S', 3, 20))
+      })
+
       it('Should calculate the correct total', function () {
         expect(cart.cartItems.length).to.equal(2)
         expect(cart.getSubTotalPrice()).to.equal(80)
       })
     })
     describe('Discount calculation', function () {
-      var cart = new ShoppingCart()
-      cart.addItem(new Product('1', 'test_product', 'S', 2, 10))
-      cart.addItem(new Product('2', 'test_product_2', 'S', 3, 20))
+      beforeEach(function () {
+        cart.addItem(new Product('1', 'test_product', 'S', 2, 10))
+        cart.addItem(new Product('2', 'test_product_2', 'S', 3, 20))
+      })
+
       it('Should apply the correct discount amount', function () {
         expect(cart.getDiscountValue()).to.equal(0.1)
       })
