@@ -7,13 +7,11 @@
     return cartItems
   }
   var getShoppingItemsLocal = function () {
-  	var deferred = $.Deferred()
+    var deferred = $.Deferred()
     $.ajax({url: 'http://jsonp.afeld.me/?url=https://api.myjson.com/bins/19ynm', crossDomain: true, dataType: 'jsonp'})
 .done(function (data) {
-  console.log('sucess' + JSON.stringify(data.productsInCart))
   var cartItems = mapShoppingResponseToModel(data.productsInCart)
   var cart = new ShoppingCart()
-  console.log(cartItems)
   cart.cartItems = cartItems
   deferred.resolve(cart)
 }).fail(function (error) {

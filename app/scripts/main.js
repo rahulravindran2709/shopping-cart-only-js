@@ -2,7 +2,6 @@
   var init = function () {
     /** Make shopping cart instance by making ajax call**/
     $.when(ShoppingCartService.getShoppingItems()).done(function (data) {
-      console.log('IN success of controller' + JSON.stringify(data))
     })
   }
   init()
@@ -12,5 +11,8 @@
     var removeItemButton = $('.remove-button')
     var addItemButton = $('.add-button')
     /** Event bindings */
+    $('.shopping-cart-item ').on('click', '.save-button', function () {
+
+    })
   })
 })(window, window.jQuery, window.ShoppingCartService)
