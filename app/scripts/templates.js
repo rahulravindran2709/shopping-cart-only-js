@@ -28,7 +28,10 @@ window.TemplateRenderer = (function (Utils) {
     if (templateObject.match(templateNameRegex)) {
       // recursive call
     }
-    var processedString = templateObject.replace(templateFieldRegex, Utils.lookupValueInObject('$&', data))
+    var processedString = templateObject.replace(templateFieldRegex, function (match, g1) {
+      console.log('match' + Utils.lookupValueInObject(g1, data))
+      return Utils.lookupValueInObject(g1, data)
+    })
 
     console.log('In process template' + processedString)
     return processedString

@@ -16,7 +16,7 @@
         expect(returnValue).to.equal('template successfully added')
       })
     })
-    describe('Populating template function', function () {
+    describe('Populating template function ', function () {
       beforeEach(function () {
         var shoppingCartItemTemplate = '<div class="shopping-cart-item"><h3 class="product_name">##cart.p_name##</h3></div>'
         TemplateRenderer.addTemplate('shoppingCartItem', shoppingCartItemTemplate)
@@ -24,7 +24,7 @@
       it('Should populate the data into the template', function () {
         var processedString = TemplateRenderer.processTemplate('shoppingCartItem', {cart: {p_name: 'My name'}})
         expect(processedString).to.not.be.a('undefined')
-        expect(processedString).to.equal('<div class="shopping-cart-item"><h3 class="product_name">##My name##</h3></div>')
+        expect(processedString).to.equal('<div class="shopping-cart-item"><h3 class="product_name">My name</h3></div>')
       })
     })
   })
