@@ -3,7 +3,7 @@ window.TemplateRenderer = (function (Utils) {
   var templates = {}
   var htmlRegex = /\w+/
   var templateNameRegex = /\w+/
-  var templateFieldRegex = /##(.+)##/
+  var templateFieldRegex = /{{(.+)}}/
   var addTemplate = function (templateName, templateString) {
     if (!templateName) {
       throw new Error('Template name is required')
@@ -29,17 +29,22 @@ window.TemplateRenderer = (function (Utils) {
       // recursive call
     }
     var processedString = templateObject.replace(templateFieldRegex, function (match, g1) {
-      console.log('match' + Utils.lookupValueInObject(g1, data))
+      console.log('Value of first capturing group' + g1)
+      console.log('the value of looked up value' + Utils.lookupValueInObject(g1, data))
       return Utils.lookupValueInObject(g1, data)
     })
 
     console.log('In process template' + processedString)
     return processedString
   }
+  var removeAll = function () {
+    templates = []
+  }
   return {
     addTemplate: addTemplate,
     processTemplate: processTemplate,
-    getTemplates: getTemplates
+    getTemplates: getTemplates,
+    removeAll: removeAll
   }
 })(window.Utils)
 
