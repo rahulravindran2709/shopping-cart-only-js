@@ -2,7 +2,7 @@
 window.TemplateRenderer = (function (Utils) {
   var templates = {}
   var htmlRegex = /\w+/
-  var templateNameRegex = /\w+/
+  var templateNameRegex = /\$\$\w+\$\$/ /* Placeholder regex for determining whether a template is included inside another bigger template */
   var templateFieldRegex = /{{(.+)}}/
   var addTemplate = function (templateName, templateString) {
     if (!templateName) {
@@ -27,7 +27,9 @@ window.TemplateRenderer = (function (Utils) {
       throw new Error('Not a valid template name')
     }
     if (templateObject.match(templateNameRegex)) {
-      // recursive call
+      /* TODO handle the scenario of  of incudling other template names inside a template
+      Would need to recursively keep calling process template until the template string contains only DOM elements
+      */
     }
     var processedString = templateObject.replace(templateFieldRegex, function (match, g1) {
       var lookedUpData = Utils.lookupValueInObject(g1, data)
