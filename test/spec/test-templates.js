@@ -25,6 +25,13 @@
       afterEach(function () {
         TemplateRenderer.removeAll()
       })
+      it('Should populate the data into the template with simple name value pair', function () {
+        var testTemplate = '<div class="shopping-cart-item"><h3 class="product_name">{{p_name}}</h3></div>'
+        TemplateRenderer.addTemplate('shoppingCartItemSingle', testTemplate)
+        var processedString = TemplateRenderer.processTemplate('shoppingCartItemSingle', {p_name: 'My name'})
+        expect(processedString).to.not.be.a('undefined')
+        expect(processedString).to.equal('<div class="shopping-cart-item"><h3 class="product_name">My name</h3></div>')
+      })
       it('Should populate the data into the template', function () {
         var processedString = TemplateRenderer.processTemplate('shoppingCartItem', {cart: {p_name: 'My name'}})
         expect(processedString).to.not.be.a('undefined')

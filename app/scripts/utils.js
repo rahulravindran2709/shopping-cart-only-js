@@ -7,10 +7,15 @@ window.Utils = (function (window) {
     return JSON.parse(localStorage.getItem(key)) || []
   }
   var lookupValueInObjectLocal = function (fieldName, dataObject) {
-    console.log('Field name recieved' + fieldName)
-    return fieldName.split('.').reduce(function (a, b) {
-      return a[b]
-    }, dataObject)
+    try {
+      return fieldName.split('.').reduce(function (smallerObject, currentField) {
+        console.log('Field name recieved' + currentField + ' object' + JSON.stringify(smallerObject))
+        return smallerObject[currentField]
+      }, dataObject)
+    } catch (error) {
+      console.log('Error occurred in lookup' + error)
+      return ''
+    }
   }
   return { store: storeLocal,
     lookupValueInObject: lookupValueInObjectLocal

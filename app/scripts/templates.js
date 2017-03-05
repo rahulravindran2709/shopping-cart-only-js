@@ -23,15 +23,16 @@ window.TemplateRenderer = (function (Utils) {
   var processTemplate = function (templateName, data) {
     var templateObject = templates[templateName]
     if (!templateObject) {
+      console.error('Template field name is invalid')
       throw new Error('Not a valid template name')
     }
     if (templateObject.match(templateNameRegex)) {
       // recursive call
     }
     var processedString = templateObject.replace(templateFieldRegex, function (match, g1) {
-      console.log('Value of first capturing group' + g1)
-      console.log('the value of looked up value' + Utils.lookupValueInObject(g1, data))
-      return Utils.lookupValueInObject(g1, data)
+      var lookedUpData = Utils.lookupValueInObject(g1, data)
+      console.log('Value of looked up data' + lookedUpData)
+      return lookedUpData
     })
 
     console.log('In process template' + processedString)
