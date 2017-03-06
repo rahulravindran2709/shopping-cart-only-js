@@ -1,6 +1,6 @@
 window.ViewHelper = (function ($, TemplateRenderer) {
   var init = function () {
-    var shoppingCartItemTemplate = '<div class="shopping-cart-item"><h3 class="product_name">{{name}}</h3></div>'
+    var shoppingCartItemTemplate = '<div class="shopping-cart-item"><h3 class="product_name">{{name}}</h3><a href="javascript:void(0)">X</a></div>'
     TemplateRenderer.addTemplate('shoppingCartItem', shoppingCartItemTemplate)
   }
   init()
@@ -11,7 +11,7 @@ window.ViewHelper = (function ($, TemplateRenderer) {
     console.log('Complete String obtained' + completeString)
     $(completeString).appendTo('.shopping-items-container')
   }
-  var removeShoppingCartItemsLocal = function () {
+  var removeShoppingCartItemsLocal = function (id) {
 
   }
   return {
